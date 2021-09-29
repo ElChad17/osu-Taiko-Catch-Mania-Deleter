@@ -23,7 +23,7 @@ def getFiles():
 
 folders = os.listdir()
 for i in folders:
-    if '.zip' not in i:
+    if os.path.isdir(i):
         os.chdir(i)
         getFiles()
         os.chdir('..')
