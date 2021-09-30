@@ -1,4 +1,4 @@
-import os
+import os, shutil
 
 def getFiles():
     files= os.listdir()
@@ -10,15 +10,12 @@ def getFiles():
                 text = open(textFileName,'r',errors="ignore").read().splitlines()
                 if text[9] != 'Mode: 0':
                     os.remove(textFileName)
-                    print('Removed',i)
+                    print('Removed',i,'\n')
                 else:
                     os.rename(textFileName,i)
                 
             except Exception as e:
-                print(e)
                 os.rename(textFileName,i)
-                print(i)
-                print()
 
 
 folders = os.listdir()
@@ -28,4 +25,26 @@ for i in folders:
         getFiles()
         os.chdir('..')
 
+for folder in folders: #This removes any folders without .osu files
+    if os.path.isdir(folder):
+        os.chdir(folder)
+        
+        files = os.listdir()
+        osuFile =  False
+        for file in files:
+            if '.osu' in file:
+                osuFile=True
+                break
+            
+        if osuFile == False:
+            print('Removing folder',folder,'as it contains no .osu files\n')
+            os.chdir('..')
+            shutil.rmtree(folder)
+            
+        else:
+            os.chdir('..')
 
+pause = input('Finished, press enter to close this window')
+
+    
+    
